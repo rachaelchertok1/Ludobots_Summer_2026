@@ -1,23 +1,65 @@
 import pyrosim.pyrosim as pyrosim
 
-x=0
-y=0
-z=0.5
+
+def Create_World(x,y,z,a,b,c):
+    pyrosim.Start_SDF("world.sdf")
+    pyrosim.Send_Cube(name="Box", pos=[x,y,z], size=[a,b,c])
+    pyrosim.End()
+
+#Store a description of the robot's body into the urdf file
+def Create_Robot():
+    pyrosim.Start_URDF("body.urdf")
+    pyrosim.Send_Cube(name="Torso", pos=[0,0,0.5], size=[1,1,1])
+    pyrosim.Send_Joint(name = "Torso_Leg", parent = "Torso", child = "Leg", type = "revolute", position = [0,0,1.0])
+    pyrosim.Send_Cube(name="Leg", pos=[0.0,0,0.5], size=[1,1,1])
+    #Slide 8
+    pyrosim.Send_Joint(name="Link1_Link2", parent="Leg", child="Link2", type="revolute", position=[0,0,1.0])
+    pyrosim.Send_Cube(name="Link2", pos=[0.0,0.0,0.5], size=[1,1,1])
+    #Slides 9 & 10
+    pyrosim.Send_Joint(name="Link2_Link3", parent="Link2", child="Link3", type="revolute", position=[0,0.5,0.5])
+    pyrosim.Send_Cube(name="Link3", pos=[0.0,0.5,0.0], size=[1,1,1])
+    #Slide 11
+    pyrosim.Send_Joint(name="Link3_Link4", parent="Link3", child="Link4", type="revolute", position=[0,1.0,0])
+    pyrosim.Send_Cube(name="Link4", pos=[0.0,0.5,0.0], size=[1,1,1])
+    
+    pyrosim.Send_Joint(name="Link4_Link5", parent="Link4", child="Link5", type="revolute", position=[0,0.5,-0.5])
+    pyrosim.Send_Cube(name="Link5", pos=[0.0,0.0,-0.5], size=[1,1,1])
+    
+    pyrosim.Send_Joint(name="Link5_Link6", parent="Link5", child="Link6", type="revolute", position=[0,0,-1])
+    pyrosim.Send_Cube(name="Link6", pos=[0.0,0.0,-0.5], size=[1,1,1])
+    
+    pyrosim.End()
+
+def Create_ThreeLink_TwoJoint_Robot():
+    pyrosim.Start_URDF("body_2.urdf")
+    pyrosim.Send_Cube(name="Torso", pos=[1.5,0,1.5], size=[1,1,1])
+
+    #First join position is absolute!
+    pyrosim.Send_Joint(name = "Torso_BackLeg", parent = "Torso", child = "BackLeg", type = "revolute", position = [1.0,0,1.0])
+    #BackLeg position is relative to the joint
+    pyrosim.Send_Cube(name = "BackLeg", pos=[-0.5,0,-0.5], size=[1,1,1])
+    
+    pyrosim.Send_Joint(name = "Torso_FrontLeg", parent = "Torso", child = "FrontLeg", type = "revolute", position = [2,0,1])
+    pyrosim.Send_Cube(name="FrontLeg", pos=[0.5,0,-0.5], size=[1,1,1])
+    
+    pyrosim.End()
+
+x_world=2
+y_world=-2
+z_world=0.5
+
+'''
+x_robot=0
+y_robot=0
+z_robot=0.5
+'''
 
 a=1
 b=1
 c=1
 
-x2=1
-y2=0
-z2=1.5
-pyrosim.Start_SDF("boxes.sdf")
-for i in range(0,10):
-    a*=0.9
-    b*=0.9
-    z+=1
-    pyrosim.Send_Cube(name="Box", pos=[x,y,z], size=[a,b,c])
+Create_World(x_world,y_world,z_world,a,b,c)
+#Create_Robot()
+Create_ThreeLink_TwoJoint_Robot()
 
-#pyrosim.Send_Cube(name="Box", pos=[x,y,z], size=[1,1,1])
-#pyrosim.Send_Cube(name="Box", pos=[x2,y2,z2], size=[1,1,1])
-pyrosim.End()
+

@@ -7,7 +7,9 @@ physicsClient = p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 p.setGravity(0,0,-9.8)
 planeId = p.loadURDF("plane.urdf")
-p.loadSDF("boxes.sdf")
+#robotId = p.loadURDF("body.urdf")
+robot2Id = p.loadURDF("body_2.urdf")
+p.loadSDF("world.sdf")
 
 #Keep sim running
 for i in range(0,1000):
