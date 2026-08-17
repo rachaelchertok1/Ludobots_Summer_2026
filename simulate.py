@@ -6,6 +6,8 @@ import numpy
 import math
 import random
 
+num_iters = 1000
+
 #Set up
 physicsClient = p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
@@ -19,9 +21,19 @@ pyrosim.Prepare_To_Simulate(robot2Id)
 backLegSensorValues = numpy.zeros(1000)
 frontLegSensorValues = numpy.zeros(1000)
 
+#Create an empty array to add the degree vals into
+vals = numpy.empty(num_iters)
+step = 360/num_iters
+for i in range(0, num_iters):
+    vals[i] = i * step
+
+#Create array of sin of each degree value computed above, do conversion to radians before putting into sin func
+targetAngles = (numpy.pi / 4) * numpy.sin(vals * numpy.pi/180)
+#numpy.save("data/targetAngles", targetAngles)
+
 
 #Keep sim running
-for i in range(0,1000):
+for i in range(0,num_iters):
     time.sleep(1/60)
     p.stepSimulation()
     backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
@@ -31,7 +43,7 @@ for i in range(0,1000):
         bodyIndex = robot2Id,
         jointName = b'Torso_BackLeg',
         controlMode = p.POSITION_CONTROL,
-        targetPosition = random.uniform((-math.pi/2.0), math.pi/2.0), #random.random(),
+        targetPosition = targetAngles[i], #random.uniform((-math.pi/2.0), math.pi/2.0), #random.random(),
         maxForce = 50
     )
 
@@ -39,7 +51,7 @@ for i in range(0,1000):
         bodyIndex = robot2Id,
         jointName = b'Torso_FrontLeg',
         controlMode = p.POSITION_CONTROL,
-        targetPosition = random.uniform(-math.pi/2.0, math.pi/2.0), #random.random(),
+        targetPosition = targetAngles[i], #random.uniform(-math.pi/2.0, math.pi/2.0), #random.random(),
         maxForce = 50
     )
 

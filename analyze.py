@@ -1,6 +1,8 @@
 import numpy
 import matplotlib.pyplot as mp
 
+'''
+#Sensor values
 #numpy.load returns a numpy array
 backLegSensorValues = numpy.load("data/backLegSensorVals.npy")
 print(backLegSensorValues)
@@ -12,4 +14,8 @@ print(frontLegSensorValues)
 mp.plot(backLegSensorValues, label="Back Leg Sensor Values", linewidth=3)
 mp.plot(frontLegSensorValues, label = "Front Leg Sensor Values")
 mp.legend()
+'''
+#Target Angles
+targetAngles = numpy.load("data/targetAngles.npy")
+mp.plot(targetAngles)
 mp.show()
