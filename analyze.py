@@ -16,6 +16,9 @@ mp.plot(frontLegSensorValues, label = "Front Leg Sensor Values")
 mp.legend()
 '''
 #Target Angles
-targetAngles = numpy.load("data/targetAngles.npy")
-mp.plot(targetAngles)
+targetAngles_backLeg = numpy.load("data/targetAngles_backLeg.npy")
+targetAngles_frontLeg = numpy.load("data/targetAngles_frontLeg.npy")
+
+mp.plot(targetAngles_backLeg, color='pink', label="Back Leg")
+mp.plot(targetAngles_frontLeg, color = "yellow", label = "Front Leg")
 mp.show()
