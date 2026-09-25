@@ -13,16 +13,7 @@ import constants as c
 '''
 '''
 
-#Set up
-physicsClient = p.connect(p.GUI)
-p.setAdditionalSearchPath(pybullet_data.getDataPath())
-p.setGravity(0,0,-9.8)
-planeId = p.loadURDF("plane.urdf")
-#robotId = p.loadURDF("body.urdf")
-robot2Id = p.loadURDF("body_2.urdf")
-p.loadSDF("world.sdf")
 
-pyrosim.Prepare_To_Simulate(robot2Id)
 backLegSensorValues = numpy.zeros(c.NUM_ITERS)
 frontLegSensorValues = numpy.zeros(c.NUM_ITERS)
 

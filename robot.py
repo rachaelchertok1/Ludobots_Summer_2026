@@ -1,3 +1,5 @@
 class ROBOT:
     def __init__(self): #class constructor
-        pass
+        #Creating empty sensor and motor dictionaries
+        self.sensors = {}
+        self.motors = {}
